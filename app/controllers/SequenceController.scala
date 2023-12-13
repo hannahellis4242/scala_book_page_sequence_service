@@ -1,5 +1,26 @@
 package controllers
 
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import solver.Solver.solve
+
+import javax.inject.Inject
+
+class SequenceController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+  def post(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    request
+      .body
+      .asJson
+      .map(_.validate[List[Int]])
+      .flatMap(_.asOpt)
+      .map(x=>solve(x))
+      .map(x=>Ok(Json.toJson(x)))
+      .getOrElse(BadRequest(Json.toJson("")))
+  }
+}
+
+package controllers
+
 import play.api._
 import libs.json.Json
 import mvc._
