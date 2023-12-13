@@ -1,2 +1,2 @@
 # scala_book_page_sequence_service
-Reimplementation of BookPageSequenceService but in scala
+Reimplementation of [BookPageSequenceService](https://github.com/hannahellis4242/BookPageSequenceService) but in scala
