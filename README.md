@@ -1,0 +1,2 @@
+# scala_book_page_sequence_service
+Reimplementation of BookPageSequenceService but in scala
