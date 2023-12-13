@@ -1,0 +1,2 @@
+POST    /sequence                   controllers.SequenceController.post()
+GET     /sequence/:key              controllers.SequenceController.get(key:java.util.UUID)
