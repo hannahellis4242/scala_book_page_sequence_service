@@ -7,3 +7,17 @@ services:
     expose:
       - 6379
     restart: always
+  db:
+    image: mongo
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - ./database/db:/data/db
+      - ./database/config:/data/configdb
+    userns_mode: keep-id
+volumes:
+  data:
+  config:

@@ -1,20 +1,15 @@
 package service
 
-import solver.Solver
+import database.SolutionRepository
+import solver.Solver.solve
 
-import java.util.UUID
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
 object Service {
-  def solve(problem:Seq[Int]):UUID={
-    val key = UUID.randomUUID()
-    val solution = Solver.solve(problem)
-    key
-  }
-  def saveSolution(key:UUID,solution:Seq[Int]):Unit={
-//TODO
-  }
-  def readSolution(key:UUID):Option[Seq[Int]]={
-    //TODO
-    None
-  }
+  def solveAndSave(problem: Seq[Int]): Future[String] =
+    SolutionRepository.create(solve(problem)).map(_.toString)
+
+  def readSolution(key: String)(implicit context :ExecutionContext): Future[Option[Array[Int]]] =
+    SolutionRepository.find(key)(context)
 }
