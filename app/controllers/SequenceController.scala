@@ -16,7 +16,7 @@ class SequenceController @Inject()(val controllerComponents: ControllerComponent
       .asJson
       .map(_.validate[List[Int]])
       .flatMap(_.asOpt)
-      .map(x=>Service.solveAndSave(x).map((s)=>Ok(Json.toJson(s))))
+      .map(x=>solveAndSave(x).map((s)=>Ok(Json.toJson(s))))
       .getOrElse(Future{BadRequest("")})
 }
 
