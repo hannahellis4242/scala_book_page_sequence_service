@@ -16,10 +16,9 @@ class SequenceController @Inject()(val controllerComponents: ControllerComponent
       .asJson
       .map(_.validate[List[Int]])
       .flatMap(_.asOpt)
-      .map(x=>solve(x))
-      .map(x=>Ok(Json.toJson(x)))
-      .getOrElse(BadRequest(Json.toJson("")))
-  }
+      .map(x=>Service.solveAndSave(x).map((s)=>Ok(Json.toJson(s))))
+      .getOrElse(Future{BadRequest("")})
+}
 
   def get(key: String): Action[AnyContent] = Action.async {
     readSolution(key)

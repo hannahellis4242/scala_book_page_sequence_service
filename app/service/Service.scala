@@ -1,6 +1,7 @@
 package service
 
-import solver.Solver
+import database.SolutionRepository
+import solver.Solver.solve
 
 import database.SolutionRepository
 import solver.Solver.solve
