@@ -11,7 +11,7 @@ import scala.concurrent.{ExecutionContext, Future}
 object SolutionRepository {
   private val url = "mongodb://localhost:27017"
   private val dbName = "solutions"
-  private val collectionName = "solutions"
+  private val collectionName = "sequence"
 
   def create(solution: Seq[Int]): Future[ObjectId] = {
     MongoClient(url)

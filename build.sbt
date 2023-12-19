@@ -11,6 +11,10 @@ libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.0" % Test
 libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "4.11.0"
 
+//Test
+libraryDependencies += "org.scalatest" %% "scalatest-funsuite" % "3.2.17" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest-flatspec" % "3.2.17" % "test"
+
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.example.controllers._"
 
