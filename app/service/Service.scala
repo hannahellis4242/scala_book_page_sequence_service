@@ -2,10 +2,6 @@ package service
 
 import database.SolutionRepository
 import solver.Solver.sequence
-
-import database.SolutionRepository
-import solver.Solver.solve
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 

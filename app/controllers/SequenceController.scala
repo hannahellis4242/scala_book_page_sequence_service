@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import libs.json.Json
 import mvc._
-import service.Service.{readSolution, solve}
+import service.Service.{readSolution, solveAndSave}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
