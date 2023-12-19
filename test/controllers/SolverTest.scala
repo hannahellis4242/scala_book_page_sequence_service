@@ -1,16 +1,39 @@
 package controllers
 
+import org.scalatest
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import solver.Solver
 
 import scala.sys.exit
-//case class TestParams(input: Seq[Int], expected: Seq[Int]);
 
 class SolverTest extends AnyFlatSpec with Matchers {
-  def testPageNumbers(): Unit = {
+  private def runTest[T](name: String, params: T, fn: T => scalatest.Assertion): Unit = {
+    try {
+      print(Console.GREEN)
+      fn(params)
+      println("----------------------")
+      println(s"\t$name")
+      println(s"\tTest Params : $params")
+      println("\tPASS")
+      println("======================")
+    }
+    catch {
+      case e: Exception =>
+        print(Console.RED)
+        println("----------------------")
+        println(s"\t$name")
+        println(s"\tTest Params : $params")
+        println("\tFAILED")
+        println(e.getMessage)
+        println("======================")
+        exit(1)
+
+    }
+  }
+
+  private def testPageNumbers(): Unit = {
     case class Params(size: Int, index: Int, expected: Option[Int])
-    print(Console.GREEN)
     val params = List(
       Params(1, 50, None),
       Params(1, 0, Some(4)),
@@ -62,34 +85,28 @@ class SolverTest extends AnyFlatSpec with Matchers {
       Params(7, 21, Some(11)),
       Params(8, 27, Some(19)))
 
-    params.foreach(params => {
-      try {
-        Solver.pageNumber(params.size, params.index) should be(params.expected)
-        println("----------------------")
-        println(s"\tTest Params : $params")
-        println("\tPASS")
-        println("======================")
-      }
-      catch {
-        case e: Exception =>
-          print(Console.RED)
-          println("----------------------")
-          println(s"\tTest Params : $params")
-          println("\tFAILED")
-          println(e.getMessage)
-          println("======================")
-          exit(1)
+    params.foreach(params => runTest[Params]("page numbers test",
+      params,
+      (p: Params) => Solver.pageNumber(p.size, p.index) should be(p.expected)))
+  }
 
-      }
-    })
+  private def testSequence(): Unit = {
+    case class Params(input: Seq[Int], expected: Seq[Int])
+    val params = List(
+      Params(List[Int](), Vector[Int]()),
+      Params(List(1), Vector(4, 1, 2, 3)),
+      Params(List(2), Vector(8, 1, 2, 7, 6, 3, 4, 5)),
+      Params(List(1, 1), Vector(4, 1, 2, 3, 8, 5, 6, 7)),
+      Params(List(2, 1), Vector(8, 1, 2, 7, 6, 3, 4, 5, 12, 9, 10, 11)))
+    params.foreach(params => runTest[Params]("sequence test",
+      params,
+      (p: Params) => Solver.sequence(p.input) should be(p.expected)))
   }
 
   testPageNumbers()
+  testSequence()
 
+  println(Console.GREEN + "\n\n******************")
   println(Console.GREEN + "*** ALL PASSED ***")
-  /*
-  private val params = List(TestParams(input = Vector(), expected = Vector()),
-    TestParams(input = Vector(1), expected = Vector(4, 1, 2, 3)));
-
-  params.foreach(param => Solver.sequence(param.input) should be(param.expected))*/
+  println(Console.GREEN + "******************")
 }
