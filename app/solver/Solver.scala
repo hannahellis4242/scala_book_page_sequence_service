@@ -15,19 +15,17 @@ object Solver {
       }
     }
 
-  def sequence(x: Seq[Int]): Seq[Int] = {
+  private def calculatePages(x:Seq[Int]):Seq[Seq[Int]] =
     swap(x
-      .map(size=>Range(0,4*size)
-        .map(index=>pageNumber(size,index)))
-      .foldLeft[(Int,Vector[Option[Int]])]((0,Vector[Option[Int]]()))((acc,x)=>{
-        val start = acc._1
-        val end = x.map(_.map(y=>y+start))
-        (start+x.length,acc._2++end)
-      })._2).getOrElse(Vector[Int]())
-  }
+    .map(size => swap(Range(0, 4 * size)
+      .map(index => pageNumber(size, index)))))
+    .getOrElse(Vector())
 
-  def separated(x:Seq[Int]):Seq[Seq[Int]]={
-    //TODO
-    Vector[Vector[Int]]()
-  }
+  def sequence(x: Seq[Int]): Seq[Int] = separated(x).flatten
+  def separated(x:Seq[Int]):Seq[Seq[Int]] =
+    calculatePages(x)
+    .foldLeft[(Int, Seq[Seq[Int]])]((0, Vector()))((acc, x) => {
+      val end = x.map(_ + acc._1)
+      (acc._1 + x.length, acc._2:+end)
+    })._2
 }
