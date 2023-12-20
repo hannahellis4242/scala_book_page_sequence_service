@@ -1,14 +1,19 @@
 package service
 
-import database.SolutionRepository
-import solver.Solver.sequence
+import database.SolutionRepository.{create, find}
+import model._
+import solver.Solver.{separated, sequence}
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 object Service {
-  def solveAndSave(problem: Seq[Int]): Future[String] =
-    SolutionRepository.create(sequence(problem)).map(_.toString)
+  def solveAndSave(problem: Problem): Future[String] = problem match {
+    case SequenceProblem(sizes) => create(SequenceSolution(sequence(sizes))).map(_.toString)
+    case SeparatedProblem(sizes) => create(SeparatedSolution(separated(sizes))).map(_.toString)
+  }
 
-  def readSolution(key: String)(implicit context :ExecutionContext): Future[Option[Array[Int]]] =
-    SolutionRepository.find(key)(context)
+  def read(key: SequenceKey): Future[Option[Array[Int]]] = find(key)
+
+  def read(key: SeparatedKey): Future[Option[Array[Array[Int]]]] = find(key)
 }

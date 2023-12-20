@@ -1,33 +1,46 @@
 package database
 
-import model.Solution
+import model._
 import org.bson.types.ObjectId
 import org.mongodb.scala.MongoClient
 import org.mongodb.scala.bson.BsonObjectId
 import org.mongodb.scala.model.Filters.equal
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 object SolutionRepository {
   private val url = "mongodb://localhost:27017"
   private val dbName = "solutions"
-  private val collectionName = "sequence"
+  private val sequenceCollection = "sequence"
+  private val separatedCollection = "separated"
 
-  def create(solution: Seq[Int]): Future[ObjectId] = {
-    MongoClient(url)
-      .getDatabase(dbName)
-      .getCollection(collectionName)
-      .insertOne(Solution(solution).toDocument)
-      .map(x => x.getInsertedId.asObjectId().getValue)
-      .head()
+  private def collection(solution: Solution) = solution match {
+    case SequenceSolution(_) => sequenceCollection
+    case SeparatedSolution(_) => separatedCollection
   }
 
-  def find(key: String)(implicit context: ExecutionContext): Future[Option[Array[Int]]] = {
+  private def collection(key: Key) = key match {
+    case SequenceKey(_) => sequenceCollection
+    case SeparatedKey(_) => separatedCollection
+  }
+
+  def create(solution: Solution): Future[ObjectId] =
     MongoClient(url)
       .getDatabase(dbName)
-      .getCollection(collectionName)
-      .find(equal("_id", BsonObjectId(key)))
-      .map(_
+      .getCollection(collection(solution))
+      .insertOne(solution.toBson)
+      .map(x => x.getInsertedId.asObjectId().getValue)
+      .head()
+
+  private def findByKey(key: Key) = {
+    MongoClient(url)
+      .getDatabase(dbName)
+      .getCollection(collection(key))
+      .find(equal("_id", BsonObjectId(key.value)))
+  }
+
+  def find(key: SequenceKey): Future[Option[Array[Int]]] =
+    findByKey(key).map(_
         .get("solution")
         .map(_
           .asArray()
@@ -36,5 +49,14 @@ object SolutionRepository {
         )
       )
       .head()
-  }
+
+  def find(key: SeparatedKey): Future[Option[Array[Array[Int]]]] =
+    findByKey(key)
+      .map(_.get("solution")
+        .map(_.asArray()
+          .toArray
+          .map(_.asInstanceOf[Array[Int]])
+        )
+      )
+      .head()
 }

@@ -1,7 +1,7 @@
 package model
 
-import org.mongodb.scala.bson.Document
+import org.mongodb.scala.bson.BsonDocument
 
-case class Solution(val solution:Seq[Int]){
-  def toDocument:Document= Document("solution"->solution)
+trait Solution {
+  def toBson: BsonDocument
 }
