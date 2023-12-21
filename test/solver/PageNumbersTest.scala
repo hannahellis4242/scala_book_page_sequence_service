@@ -1,14 +1,12 @@
 package solver
 
-import org.scalatest
-import test.FlatTest
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
+import solver.PageNumber.pageNumber
 
-import scala.sys.exit
-
-class PageNumbersTest extends FlatTest {
-  private def testPageNumbers(): Unit = {
+class PageNumbersTest extends AnyFunSuite with Matchers{
     case class Params(size: Int, index: Int, expected: Option[Int])
-    val params = List(
+    private val params = List(
       Params(1, 50, None),
       Params(1, 0, Some(4)),
       Params(2, 0, Some(8)),
@@ -59,10 +57,5 @@ class PageNumbersTest extends FlatTest {
       Params(7, 21, Some(11)),
       Params(8, 27, Some(19)))
 
-    params.foreach(params => runTest[Params]("page numbers test",
-      params,
-      (p: Params) => Solver.pageNumber(p.size, p.index) should be(p.expected)))
-  }
-
-  override protected def runAll(): Unit = testPageNumbers()
+    params.foreach(params => test(s"Test Params : $params"){(p: Params) => pageNumber(p.size, p.index) should be(p.expected)})
 }
