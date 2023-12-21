@@ -1,11 +1,11 @@
 package controllers
 
+import jakarta.inject.Inject
 import model.{SequenceKey, SequenceProblem, SequenceSolution}
 import play.api.libs.json.Json
 import play.api.mvc._
 import service.Service
 
-import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class SequenceController @Inject()(val controllerComponents: ControllerComponents,

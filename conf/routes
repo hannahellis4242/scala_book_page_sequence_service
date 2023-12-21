@@ -1,4 +1,4 @@
 POST    /sequence                   controllers.SequenceController.post()
 GET     /sequence/:key              controllers.SequenceController.get(key:String)
 POST    /separated                  controllers.SeparatedController.post()
-GET     /sequence/:key              controllers.SeparatedController.get(key:String)
+GET     /separated/:key             controllers.SeparatedController.get(key:String)
