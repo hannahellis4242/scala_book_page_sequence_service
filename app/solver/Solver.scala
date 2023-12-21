@@ -1,5 +1,6 @@
 package solver
 
+import model.{Problem, SeparatedProblem, SeparatedSolution, SequenceProblem, SequenceSolution, Solution}
 import solver.PageNumber.pageNumber
 import utils.Utils.swap
 
@@ -10,11 +11,16 @@ object Solver {
         .map(index => pageNumber(size, index)))))
       .getOrElse(Vector())
 
-  def sequence(x: Seq[Int]): Seq[Int] = separated(x).flatten
+  private def sequence(x: Seq[Int]): Seq[Int] = separated(x).flatten
 
-  def separated(x: Seq[Int]): Seq[Seq[Int]] =
+  private def separated(x: Seq[Int]): Seq[Seq[Int]] =
     calculatePages(x)
       .foldLeft[(Int, Seq[Seq[Int]])]((0, Vector()))((acc, x) =>
         (acc._1 + x.length, acc._2 :+ x.map(_ + acc._1))
       )._2
+
+  def solve(problem: Problem): Solution = problem match {
+    case SeparatedProblem(signatureSizes) => SeparatedSolution(separated(signatureSizes))
+    case SequenceProblem(signatureSizes) => SequenceSolution(sequence(signatureSizes))
+  }
 }
