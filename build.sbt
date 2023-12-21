@@ -9,7 +9,7 @@ scalaVersion := "2.13.12"
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.0" % Test
-libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "4.11.0"
+libraryDependencies += "net.debasishg" %% "redisclient" % "3.41"
 
 //Test
 libraryDependencies += "org.scalatest" %% "scalatest-funsuite" % "3.2.17" % "test"

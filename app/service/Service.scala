@@ -1,14 +1,14 @@
 package service
 
 import database.SolutionRepository
-import solver.Solver.sequence
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import jakarta.inject.Inject
+import model._
+import solver.Solver.solve
 
-object Service {
-  def solveAndSave(problem: Seq[Int]): Future[String] =
-    SolutionRepository.create(sequence(problem)).map(_.toString)
+import scala.concurrent.Future
 
-  def readSolution(key: String)(implicit context :ExecutionContext): Future[Option[Array[Int]]] =
-    SolutionRepository.find(key)(context)
+class Service @Inject()(val repository: SolutionRepository) {
+  def solveAndSave(problem: Problem): Future[Key] = repository.create(solve(problem))
+
+  def read(key: Key): Future[Option[Solution]] = repository.find(key)
 }
