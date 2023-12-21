@@ -1,6 +1,6 @@
 package solver
 
-import model.{Problem, SeparatedProblem, SeparatedSolution, SequenceProblem, SequenceSolution, Solution}
+import model._
 import solver.PageNumber.pageNumber
 import utils.Utils.swap
 
