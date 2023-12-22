@@ -8,8 +8,7 @@ import java.util.UUID
 import scala.concurrent.duration.Duration
 import scala.concurrent.{ExecutionContext, Future}
 
-class SolutionRepositoryRedis(implicit context: ExecutionContext) extends SolutionRepository {
-  private val host = "localhost"
+class SolutionRepositoryRedis(private val host: String)(implicit context: ExecutionContext) extends SolutionRepository {
   private val port = 6379
 
   override def create(solution: Solution): Future[Key] = {
