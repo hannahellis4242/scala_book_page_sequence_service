@@ -32,7 +32,7 @@ jobs:
         username: ${{github.actor}}
         password: ${{secrets.GITHUB_TOKEN}}
 
-    - name: Build And Push web Image
+    - name: Build And Push Image
       run: |
         docker build . --tag ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
         docker push ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
