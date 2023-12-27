@@ -33,6 +33,9 @@ jobs:
         password: ${{secrets.GITHUB_TOKEN}}
 
     - name: Build And Push Image
+      permissions:
+        contents: read
+        packages: write
       run: |
         docker build . --tag ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
         docker push ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
