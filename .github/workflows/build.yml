@@ -31,5 +31,5 @@ jobs:
 
     - name: Build And Push Image
       run: |
-        docker build . --tag ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
+        docker buildx . --tag ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
         docker push ghcr.io/hannahellis4242/sbpss/scala-book-page-sequence-service:latest
