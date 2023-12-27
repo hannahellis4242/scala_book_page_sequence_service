@@ -10,6 +10,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class SolutionRepositoryRedis(private val host: String)(implicit context: ExecutionContext) extends SolutionRepository {
   private val port = 6379
+  println(s"Host = $host")
 
   override def create(solution: Solution): Future[Key] = {
     val key = UUID.randomUUID().toString
