@@ -1,4 +1,3 @@
-+anyhost
 POST    /sequence                   controllers.SequenceController.post()
 GET     /sequence                   controllers.SequenceController.get(key:String)
 POST    /separated                  controllers.SeparatedController.post()
