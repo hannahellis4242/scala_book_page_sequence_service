@@ -8,7 +8,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class Module extends play.api.inject.Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
-    println(sys.env)
-    Seq(bind[SolutionRepository].toInstance(new SolutionRepositoryRedis(sys.env.getOrElse("DBHOST", "localhost"))))
+    Seq(bind[SolutionRepository].toInstance(new SolutionRepositoryRedis(sys.env.getOrElse("DB-HOST", "localhost"))))
   }
 }
